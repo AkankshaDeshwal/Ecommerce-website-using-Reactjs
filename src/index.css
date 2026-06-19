@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+@theme {
+    --color-background:#FFFDF9;
+    --color-surface:#FFFFFF;
+
+    --color-primary:#FFD23F;
+    --color-secondary: #FF5964;
+
+    --color-foreground: #2E2E3A;
+    --color-muted: #3D3D3D;
+    --color-success:#38B000;
+
+    --font-primary: "Quicksand", sans-serif;
+    --font-secondary: "Inter", sans-serif;
+
+}
+
+@layer base {
+    h1{
+        color:var(--color-foreground);
+        font-family: var(--font-primary);
+    }
+
+    h2{
+        color:var(--color-muted);
+        font-family: var(--font-secondary);
+    }
+}
