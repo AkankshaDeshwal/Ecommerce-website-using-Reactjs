@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-    --color-background:#FFFDF9;
+    --color-background:#fcf7eb;
     --color-surface:#FFFFFF;
 
     --color-primary:#FFD23F;
@@ -10,6 +10,9 @@
     --color-foreground: #2E2E3A;
     --color-muted: #3D3D3D;
     --color-success:#38B000;
+
+    --color-input-outline: #D1E8E2;
+    --color-input-focus:#35A7FF;
 
     --font-primary: "Quicksand", sans-serif;
     --font-secondary: "Inter", sans-serif;
