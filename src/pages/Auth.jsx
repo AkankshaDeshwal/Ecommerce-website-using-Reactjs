@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+    const {signUp, login} = useContext(AuthContext)
     const [authMode, setAuthMode] = useState("signup")
     const [userInput, setUserInput] = useState({
         email:"",
@@ -10,6 +13,8 @@ const Auth = () => {
     })
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
+    const [authError, setAuthError] = useState()
+    const navigate = useNavigate()
 
     const onChangeHandler = (e, inputField) => {
         setUserInput(prev => (
@@ -49,13 +54,32 @@ const Auth = () => {
 
     useEffect(() => {
         console.log(formErrors)
+        let authStatus;
         if (Object.keys(formErrors).length === 0 && isSubmit){
-            console.log(userInput)
+            if (authMode === "signup"){
+                authStatus = signUp(userInput.email, userInput.password)
+            }
+            else {
+                authStatus = login(userInput.email, userInput.password)
+            }
+            
+            if (!authStatus.success) {
+                setAuthError(authStatus.error)
+                setUserInput({
+                    email:"",
+                    password:""
+                })
+            }
+            else {
+                navigate("/")
+            }
         }
     }, [formErrors])
 
     const switchAuth = () => {
         setAuthMode(prev => prev==="signup"?"login":"signup")
+        setAuthError("")
+        setFormErrors({})
     }
     return ( 
         <div className="flex flex-col gap-8 bg-surface p-10 rounded-md items-start w-2/5">
@@ -63,9 +87,11 @@ const Auth = () => {
                 <h1 className="text-2xl font-bold">{authMode === "signup"?"Signup":"Login"}</h1>
             </div>
 
+
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit} noValidate>
-                <Input inputType="email" inputId="email" inputLable="Email" inputPlaceholder="Enter email" onChangeHandler={onChangeHandler} error={formErrors.email?formErrors.email:""}/>
-                <Input inputType="password" inputId="password" inputLable="Password" inputPlaceholder="Enter Password" onChangeHandler={onChangeHandler}  error={formErrors.password?formErrors.password:""}/>
+                <p className="text-secondary">{authError}</p>
+                <Input inputType="email" inputId="email" inputLable="Email" inputPlaceholder="Enter email" onChangeHandler={onChangeHandler} error={formErrors.email?formErrors.email:""} inputValue={userInput.email}/>
+                <Input inputType="password" inputId="password" inputLable="Password" inputPlaceholder="Enter Password" onChangeHandler={onChangeHandler}  error={formErrors.password?formErrors.password:""} inputValue={userInput.password}/>
                 <button type="submit" className="py-2 px-4 rounded-sm bg-primary hover:bg-secondary cursor-pointer">{authMode === "signup"?"Signup":"Login"}</button>
             </form>
 

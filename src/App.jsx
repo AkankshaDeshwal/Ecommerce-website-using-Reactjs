@@ -5,15 +5,16 @@ import Home from './pages/Home'
 import Auth from './pages/Auth'
 import Checkout from './pages/Checkout'
 import Header from './components/Header'
+import AuthProvider from './context/AuthContext'
 
-function App() {
-  
+function App(){
 
   return (
   
-      <div className='flex flex-col items-center w-full bg-background'>
+      <AuthProvider>
+        <div className='flex flex-col items-center w-full bg-background min-h-dvh'>
         <Header />
-          <div className='flex justify-center items-center  w-full md:w-2/3  p-4'>
+          <div className='flex justify-center w-full md:w-2/3 p-10 '>
             <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/auth' element={<Auth />} />
@@ -21,6 +22,7 @@ function App() {
           </Routes>
           </div>
       </div>
+      </AuthProvider>
     
   )
 }
