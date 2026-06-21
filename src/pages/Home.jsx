@@ -18,7 +18,7 @@ const Home = () => {
     }, [])
 
     return ( 
-        <div className="flex flex-col gap-4 justify-center py-8">
+        <div className="flex flex-col gap-6 justify-center py-8">
             <div className='text-center'>
                 <h1 className='text-3xl font-bold'>Welcome To Shop Up!</h1>
                 <h2>First-class shopping experience</h2>
@@ -26,6 +26,17 @@ const Home = () => {
 
             <div className='flex flex-col items-center gap-4'>
                 <h1 className='text-lg'>Shop</h1>
+
+                <div className=' w-full flex justify-between items-center '>
+                    <select name='sortBy' id='sort'>
+                        <option value='' >Sort by:</option>
+                        <option value='price_inc' >Price(low to high)</option>
+                        <option value='price_dec' >Price(high to low)</option>
+                        <option value='rating' >Rating(high to low)</option>
+                    </select>
+
+                    <input type="text" placeholder='Search products...' className='px-6 py-2 rounded-sm bg-surface focus:outline focus:outline-muted' />
+                </div>
                 
                 {isLoading? <div>Loading...</div> : <div className='w-full grid grid-cols-3 gap-12'>{products.map(product => <ProductCard key={product.id} product={product} />)}</div>}
             </div>
