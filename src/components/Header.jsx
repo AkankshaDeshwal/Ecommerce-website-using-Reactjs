@@ -15,7 +15,7 @@ const Header = () => {
     return ( 
         <nav className="flex justify-between md:justify-evenly py-4 px-12 bg-surface items-center shadow-sm relative w-full">
             <div className="flex items-center">
-                <Link to='/'><img src={Logo} className="w-15" alt='website logo' /></Link>
+                <Link to='/'><img src={Logo} className="w-18" alt='website logo' /></Link>
             </div>
 
             <div className="flex gap-4 max-md:hidden">
