@@ -7,6 +7,7 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [filteredList, setFilteredList] = useState([])
     const [sortBy, setSortBy] = useState()
+    const [searchQuery, setSearchQuery] = useState('')
 
     const loadProducts = async () => {
         try {
@@ -29,7 +30,7 @@ const Home = () => {
         return (price*(100-disc)/100).toFixed(2)
     }
     const sortProducts = () => {
-        let filtered = [...products]
+        let filtered = products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
         filtered.sort((a,b) => {
             let a_sp = calculateSellingPrice(a.price, a.discountPercentage)
@@ -52,7 +53,7 @@ const Home = () => {
 
     useEffect(() => {
         sortProducts()
-    }, [sortBy, products])
+    }, [sortBy, products, searchQuery])
 
     return ( 
         <div className="flex flex-col gap-6 justify-center py-8">
@@ -72,7 +73,7 @@ const Home = () => {
                         <option value='rating' >Rating(high to low)</option>
                     </select>
 
-                    <input type="text" placeholder='Search products...' className='px-6 py-2 rounded-sm bg-surface focus:outline focus:outline-muted' />
+                    <input type="text" placeholder='Search products...' className='px-6 py-2 rounded-sm bg-surface focus:outline focus:outline-muted' onChange={(e) => setSearchQuery(e.target.value)} />
                 </div>
                 
                 {isLoading? <div>Loading...</div> : <div className='w-full grid grid-cols-3 gap-12'>{filteredList.map(product => <ProductCard key={product.id} product={product} />)}</div>}
