@@ -8,9 +8,16 @@ const Home = () => {
     const [filteredList, setFilteredList] = useState([])
 
     const loadProducts = async () => {
-        const data = await fetchProducts()
+        try {
+            const data = await fetchProducts()
         setProducts(data.products)
-        setIsLoading(false)
+        } catch(err)
+        {
+            console.error(err)
+        }
+        finally {
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {
