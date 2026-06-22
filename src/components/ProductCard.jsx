@@ -3,8 +3,10 @@ import Sample from '../assets/sample.avif'
 import Button from './Button';
 import RatingPill from './RatingPill';
 import PriceDetails from './PriceDetails';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({product}) => {
+    const navigate = useNavigate()
     
     return ( 
         <div className="flex flex-col rounded-md shadow-sm bg-surface">
@@ -24,8 +26,9 @@ const ProductCard = ({product}) => {
 
             <PriceDetails price={product.price} discountPercentage={product.discountPercentage} />
 
-            <div>
-                <Button btnText="Add to Cart" />
+            <div className='flex gap-4 mt-2'>
+                <Button btnText="View Details" addStyles='text-sm' btnHandler={() => navigate(`/products/${product.id}`)}/>
+                <Button btnText="Add to Cart" addStyles='text-sm' />
             </div>
             </div>
         </div>
