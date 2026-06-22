@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from '../assets/brand images/logo.jpg'
 import Button from "./Button";
 import MobileDropDownMenu from "./MobileDropDownMenu";
@@ -9,6 +9,7 @@ import { useAuth } from "../context/AuthContext";
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
     const {user, logout} = useAuth()
+    const navigate = useNavigate()
 
     const onClickHandler = () => {
         setIsOpen(prev => !prev)
@@ -26,8 +27,8 @@ const Header = () => {
             </div>
 
             {!user? <div className="flex gap-4 items-center max-md:hidden">
-                <Link to='/auth'><h1 className="no-underline hover:text-secondary">Login</h1></Link>
-                <Link to='/auth'><Button btnText="Signup" /></Link>
+                <Link to='/auth/login'><h1 className="no-underline hover:text-secondary">Login</h1></Link>
+                <Button btnText="Signup" btnHandler={() => navigate('/auth/signup')}/>
             </div>:
             <div className="flex gap-4 items-center max-md:hidden">
                 <h2 className="text-secondary capitalize">Welcome, {user.userName}</h2>
