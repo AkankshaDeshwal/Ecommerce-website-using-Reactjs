@@ -1,12 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Auth = () => {
-    const {signUp, login} = useContext(AuthContext)
-    const [authMode, setAuthMode] = useState("signup")
+    const {authType} = useParams()
+    const {signUp, login} = useAuth()
+    const [authMode, setAuthMode] = useState(authType)
+
     const [userInput, setUserInput] = useState({
         userName:"",
         email:"",
@@ -85,6 +87,10 @@ const Auth = () => {
             }
         }
     }, [formErrors])
+
+    useEffect(() => {
+        setAuthMode(authType)
+    }, [authType])
 
     const switchAuth = () => {
         setAuthMode(prev => prev==="signup"?"login":"signup")
