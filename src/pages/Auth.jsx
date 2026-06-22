@@ -8,8 +8,10 @@ const Auth = () => {
     const {signUp, login} = useContext(AuthContext)
     const [authMode, setAuthMode] = useState("signup")
     const [userInput, setUserInput] = useState({
+        userName:"",
         email:"",
-        password:""
+        password:"",
+        
     })
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
@@ -36,6 +38,7 @@ const Auth = () => {
         const errors = {}
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        const userNameRegex = /^[a-zA-Z0-9]{2,16}$/
 
         if (!values.email){
             errors.email = "Username is required"
@@ -45,10 +48,16 @@ const Auth = () => {
 
         if (!values.password){
             errors.password = "Password is required"
-        } else if(!passwordRegex.test(values.password)) {
+        } else if(authMode==="signup" && !passwordRegex.test(values.password)) {
             errors.password = "Password requires min 8 characters(at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character)"
         }
 
+        if (authMode === "signup" && !values.userName) {
+            errors.userName = "Username is required"
+        }
+        // else if (authMode === "signup" && !userNameRegex.test(userName)){
+        //    errors.userName = "Username requires to be 2-16 characters with no special characters"
+        // } 
         return errors
     }
 
@@ -57,7 +66,7 @@ const Auth = () => {
         let authStatus;
         if (Object.keys(formErrors).length === 0 && isSubmit){
             if (authMode === "signup"){
-                authStatus = signUp(userInput.email, userInput.password)
+                authStatus = signUp(userInput.userName, userInput.email, userInput.password, )
             }
             else {
                 authStatus = login(userInput.email, userInput.password)
@@ -66,6 +75,7 @@ const Auth = () => {
             if (!authStatus.success) {
                 setAuthError(authStatus.error)
                 setUserInput({
+                    userName:"",
                     email:"",
                     password:""
                 })
@@ -90,8 +100,13 @@ const Auth = () => {
 
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit} noValidate>
                 <p className="text-secondary">{authError}</p>
+                {authMode === "signup" ? <Input inputType="text" inputId="userName" inputLable="Username" inputPlaceholder="Enter Username" onChangeHandler={onChangeHandler}  error={formErrors.userName?formErrors.userName:""} inputValue={userInput.userName}/> : ""}
+
                 <Input inputType="email" inputId="email" inputLable="Email" inputPlaceholder="Enter email" onChangeHandler={onChangeHandler} error={formErrors.email?formErrors.email:""} inputValue={userInput.email}/>
+
                 <Input inputType="password" inputId="password" inputLable="Password" inputPlaceholder="Enter Password" onChangeHandler={onChangeHandler}  error={formErrors.password?formErrors.password:""} inputValue={userInput.password}/>
+
+
                 <button type="submit" className="py-2 px-4 rounded-sm bg-primary hover:bg-secondary cursor-pointer">{authMode === "signup"?"Signup":"Login"}</button>
             </form>
 

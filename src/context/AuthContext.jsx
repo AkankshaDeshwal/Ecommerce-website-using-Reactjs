@@ -4,28 +4,35 @@ export const AuthContext = createContext(null)
 
 const AuthProvider = ({children}) => {
 
-    const currentUser = localStorage.getItem("currentUserEmail")
-    const [user, setUser] = useState(currentUser? {email:currentUser}: null)
+    const currentUser = localStorage.getItem("currentUser")
+    const [user, setUser] = useState(currentUser? {userName: currentUser.userName, email:currentUser.email}: null)
 
-    const signUp = (email, password) => {
+    const saveCurrentUser = (userName, email) =>{
+        localStorage.setItem("currentUser", JSON.stringify({userName, email}))
+    }
+
+    const signUp = (userName, email, password) => {
         const users = JSON.parse(localStorage.getItem("users")) || []
 
         if (users.find(user => user.email === email)){
             return {success: false, error:"Email already exists. Please login."}
         }
         else {
-            users.push({email: email, password:password})
+            users.push({email: email, password:password, userName:userName})
         localStorage.setItem("users", JSON.stringify(users))
+        saveCurrentUser(userName, email)
         return {success: true, error:null}
         }
     }
 
     const login = (email, password) => {
         const users = JSON.parse(localStorage.getItem("users")) || []
+        
+        const validUser = users.find(user => user.email === email && user.password === password)
 
-        if (users.find(user => user.email === email && user.password === password)){
-            setUser({email})
-            localStorage.setItem("currentUserEmail", email)
+        if (validUser){
+            setUser({userName:validUser.userName, email:validUser.email})
+            saveCurrentUser(validUser.userName, validUser.email)
             return {success: true, error:null}
         }
         else {
