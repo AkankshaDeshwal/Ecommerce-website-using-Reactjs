@@ -6,6 +6,7 @@ import Auth from './pages/Auth'
 import Checkout from './pages/Checkout'
 import Header from './components/Header'
 import AuthProvider from './context/AuthContext'
+import ProductDetails from './pages/ProductDetails'
 
 function App(){
 
@@ -17,7 +18,8 @@ function App(){
           <div className='flex justify-center w-full md:w-2/3 p-10 '>
             <Routes>
             <Route path='/' element={<Home/>} />
-            <Route path='/auth' element={<Auth />} />
+            <Route path='/auth/:authType' element={<Auth />} />
+            <Route path='/products/:id' element={<ProductDetails />} />
             <Route path='/checkout' element={<Checkout />} />
           </Routes>
           </div>
