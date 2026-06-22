@@ -4,9 +4,11 @@ import Button from "./Button";
 import MobileDropDownMenu from "./MobileDropDownMenu";
 import { useState } from "react";
 import HamburgerButton from "./HamburgerButton";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const {user, logout} = useAuth()
 
     const onClickHandler = () => {
         setIsOpen(prev => !prev)
@@ -23,10 +25,15 @@ const Header = () => {
                 <Link to='/checkout'><h1 className="no-underline hover:text-secondary">Cart</h1></Link>
             </div>
 
-            <div className="flex gap-4 items-center max-md:hidden">
+            {!user? <div className="flex gap-4 items-center max-md:hidden">
                 <Link to='/auth'><h1 className="no-underline hover:text-secondary">Login</h1></Link>
                 <Link to='/auth'><Button btnText="Signup" /></Link>
+            </div>:
+            <div className="flex gap-4 items-center max-md:hidden">
+                <h2 className="text-secondary capitalize">Welcome, {user.userName}</h2>
+                <button onClick={logout} className="py-2 px-4 rounded-sm bg-primary hover:bg-secondary cursor-pointer">Logout</button>
             </div>
+            }
 
             <HamburgerButton isOpen={isOpen} onClickHandler={onClickHandler}/>
 

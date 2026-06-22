@@ -1,10 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 
 export const AuthContext = createContext(null)
 
 const AuthProvider = ({children}) => {
 
-    const currentUser = localStorage.getItem("currentUser")
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"))
     const [user, setUser] = useState(currentUser? {userName: currentUser.userName, email:currentUser.email}: null)
 
     const saveCurrentUser = (userName, email) =>{
@@ -43,7 +43,7 @@ const AuthProvider = ({children}) => {
     }
 
     const logout = () => {
-        localStorage.removeItem("currentUseEmail");
+        localStorage.removeItem("currentUser");
         setUser(null)
 
     }
@@ -54,3 +54,9 @@ const AuthProvider = ({children}) => {
 }
 
 export default AuthProvider;
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+
+    return context;
+}
