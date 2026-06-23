@@ -117,7 +117,7 @@ const Auth = () => {
             </form>
 
             <div >
-                <h2 className="text-sm">Already have an account? <span className="text-input-focus cursor-pointer" onClick={switchAuth}>{authMode === "signup"?"Login":"Signup"}</span></h2>
+                <h2 className="text-sm">Already have an account? <button className="text-blue-500 cursor-pointer font-semibold" onClick={switchAuth}>{authMode === "signup"?"Login":"Signup"}</button></h2>
             </div>
         </div>
      );
