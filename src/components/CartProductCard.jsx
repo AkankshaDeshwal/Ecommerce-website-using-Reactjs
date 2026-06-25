@@ -2,10 +2,10 @@ import { useCart } from "../context/CartContext";
 import Button from "./Button";
 import UpdateQuantityButton from "./UpdateQuantityButton";
 
-const CartProductCard = ({product}) => {
-    const {removeItem, cartItems} = useCart()
+const CartProductCard = ({product, qty}) => {
+    const {removeItem} = useCart()
     const sellingPrice = (product.price*(100-product.discountPercentage)/100).toFixed(2)
-    const qty = cartItems.find(prod => prod.id === product.id)?(cartItems.find(prod => prod.id === product.id)).quantity:0
+    // const qty = (cartItems.find(prod => prod.id === product.id)).quantity
     
     return ( 
         <div className="w-full flex justify-between shadow-md">
