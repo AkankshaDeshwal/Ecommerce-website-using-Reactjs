@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import ProductCard from '../components/ProductCard.jsx';
 import {fetchProducts} from '../api/DummyJson.js'
+import PaginationButton from '../components/PaginationButton.jsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Home = () => {
     const [products, setProducts] = useState([])
@@ -8,6 +10,21 @@ const Home = () => {
     const [filteredList, setFilteredList] = useState([])
     const [sortBy, setSortBy] = useState()
     const [searchQuery, setSearchQuery] = useState('')
+    const [currentPage, setCurrentPage] = useState(0)
+    const PER_PAGE = 12
+
+    const totalProducts = filteredList.length
+    const noOfPages = Math.ceil(totalProducts/PER_PAGE)
+    const start = currentPage*PER_PAGE 
+    const end = start + PER_PAGE
+
+    const prevPage = () => {
+        setCurrentPage(prev => prev-1)
+    }
+
+    const nextPage = () => {
+        setCurrentPage(prev => prev+1)
+    }
 
     const loadProducts = async () => {
         try {
@@ -55,6 +72,16 @@ const Home = () => {
         sortProducts()
     }, [sortBy, products, searchQuery])
 
+    useEffect(() => {
+        window.scrollTo(
+            {
+            top:0, 
+            behaviour:'instant'
+        }
+        )
+    }
+    , [currentPage]);
+
     return ( 
         <div className="flex flex-col gap-6 justify-center py-8">
             <div className='text-center'>
@@ -76,7 +103,13 @@ const Home = () => {
                     <input type="text" placeholder='Search products...' className='px-6 py-2 rounded-sm bg-surface focus:outline focus:outline-muted' onChange={(e) => setSearchQuery(e.target.value)} />
                 </div>
                 
-                {isLoading? <div>Loading...</div> : <div className='w-full grid grid-cols-3 gap-12'>{filteredList.map(product => <ProductCard key={product.id} product={product} />)}</div>}
+                {isLoading? <div>Loading...</div> : <div className='w-full grid grid-cols-3 gap-12'>{filteredList.slice(start, end).map(product => <ProductCard key={product.id} product={product} />)}</div>}
+            </div>
+
+            <div className='w-full flex justify-center gap-2'>
+                <PaginationButton pageHandler={prevPage} disableButton={currentPage === 0}><ChevronLeft /></PaginationButton>
+
+                <PaginationButton pageHandler={nextPage} disableButton={currentPage === (noOfPages-1)}><ChevronRight /></PaginationButton>
             </div>
         </div>
      );
