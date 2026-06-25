@@ -4,11 +4,13 @@ import { fetchProductById } from "../api/DummyJson";
 import Button from "../components/Button";
 import RatingPill from "../components/RatingPill";
 import PriceDetails from "../components/PriceDetails";
+import { useCart } from "../context/CartContext";
 
 const ProductDetails = () => {
     const {id} = useParams();
     const [product, setProduct] = useState();
     const [isLoading, setIsLoading] = useState(true)
+    const {addToCart} = useCart();
 
     const loadProducts = async () => {
         try {
@@ -66,7 +68,7 @@ const ProductDetails = () => {
                     <p className="text-sm font-secondary text-muted">{product.description}</p>
                     
                     {/* Add to cart */}
-                    <Button btnText="Add to Cart" />
+                    <Button btnText="Add to Cart" btnHandler={() => addToCart(product.id)} />
                 </div>
             </div>
         </div>

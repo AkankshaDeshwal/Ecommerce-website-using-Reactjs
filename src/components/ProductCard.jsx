@@ -4,9 +4,11 @@ import Button from './Button';
 import RatingPill from './RatingPill';
 import PriceDetails from './PriceDetails';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({product}) => {
     const navigate = useNavigate()
+    const {cartItems, addToCart} = useCart()
     
     return ( 
         <div className="flex flex-col rounded-md shadow-sm bg-surface">
@@ -28,7 +30,9 @@ const ProductCard = ({product}) => {
 
             <div className='flex gap-4 mt-2'>
                 <Button btnText="View Details" addStyles='text-sm' btnHandler={() => navigate(`/products/${product.id}`)}/>
-                <Button btnText="Add to Cart" addStyles='text-sm' />
+                <Button btnText="Add to Cart" addStyles='text-sm' btnHandler={() => addToCart(product.id)}/>
+                    
+
             </div>
             </div>
         </div>

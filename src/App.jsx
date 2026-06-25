@@ -7,13 +7,15 @@ import Checkout from './pages/Checkout'
 import Header from './components/Header'
 import AuthProvider from './context/AuthContext'
 import ProductDetails from './pages/ProductDetails'
+import CartProvider from './context/CartContext'
 
 function App(){
 
   return (
   
       <AuthProvider>
-        <div className='flex flex-col items-center w-full bg-background min-h-dvh'>
+        <CartProvider>
+          <div className='flex flex-col items-center w-full bg-background min-h-dvh'>
         <Header />
           <div className='flex justify-center w-full md:w-2/3 p-10 '>
             <Routes>
@@ -24,6 +26,7 @@ function App(){
           </Routes>
           </div>
       </div>
+        </CartProvider>
       </AuthProvider>
     
   )
