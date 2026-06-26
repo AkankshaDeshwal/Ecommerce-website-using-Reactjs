@@ -5,11 +5,16 @@ import MobileDropDownMenu from "./MobileDropDownMenu";
 import { useState } from "react";
 import HamburgerButton from "./HamburgerButton";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 const Header = () => {
+    const {cartItems} = useCart()
     const [isOpen, setIsOpen] = useState(false)
     const {user, logout} = useAuth()
     const navigate = useNavigate()
+    const noOfCartItems = cartItems.reduce((acc, curr) => {
+        return acc+curr.quantity
+    }, 0)
 
     const onClickHandler = () => {
         setIsOpen(prev => !prev)
@@ -23,7 +28,7 @@ const Header = () => {
 
             <div className="flex gap-4 max-md:hidden">
                 <Link to='/' ><h1 className="no-underline hover:text-secondary">Home</h1></Link>
-                <Link to='/checkout'><h1 className="no-underline hover:text-secondary">Cart</h1></Link>
+                <Link to='/checkout'><h1 className="no-underline hover:text-secondary">Cart{noOfCartItems>0 ? <sup className="rounded-xl font-semibold bg-secondary text-white py-1 px-2 text-[10px]">{noOfCartItems}</sup>:<></>}</h1></Link>
             </div>
 
             {!user? <div className="flex gap-4 items-center max-md:hidden">
