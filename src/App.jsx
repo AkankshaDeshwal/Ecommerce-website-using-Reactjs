@@ -8,6 +8,7 @@ import Header from './components/Header'
 import AuthProvider from './context/AuthContext'
 import ProductDetails from './pages/ProductDetails'
 import CartProvider from './context/CartContext'
+import PaymentPage from './pages/PaymentPage'
 
 function App(){
 
@@ -23,6 +24,7 @@ function App(){
             <Route path='/auth/:authType' element={<Auth />} />
             <Route path='/products/:id' element={<ProductDetails />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='/paymentpage' element={<PaymentPage />} />
           </Routes>
           </div>
       </div>
