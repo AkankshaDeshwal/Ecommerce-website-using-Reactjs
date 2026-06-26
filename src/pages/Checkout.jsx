@@ -20,7 +20,7 @@ const Checkout = () => {
         setNormalizedMap(normalizedData)
     }
 
-    const cartTotal = Number((cartItems.reduce((acc, item) => {
+    const cartTotal = cartItems.length === 0?0: Number((cartItems.reduce((acc, item) => {
         const product =normalizedMap[item.id]
 
         if (!product) return acc
@@ -55,7 +55,7 @@ const Checkout = () => {
                         {cartItems.map(item => {
                             const details = normalizedMap[item.id]
 
-                            if (!details) return null
+                            if (!details || item.quantity === 0) return null
 
                             return (<CartProductCard product={details} qty = {item.quantity}/>)
                         })}

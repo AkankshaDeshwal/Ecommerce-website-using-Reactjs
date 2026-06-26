@@ -15,9 +15,9 @@ const CartProductCard = ({product, qty}) => {
                 <h2>${sellingPrice}/piece</h2>
             </div>
 
-            <div className="p-2">
-                <UpdateQuantityButton />
-                <h2>${sellingPrice*qty}</h2>
+            <div className="p-2  flex flex-col gap-2">
+                <UpdateQuantityButton qty={qty} productId={product.id}/>
+                <h2>${(sellingPrice*qty).toFixed(2)}</h2>
                 <Button btnText="Remove" btnHandler={() => removeItem(product.id)} />
             </div> 
         </div>

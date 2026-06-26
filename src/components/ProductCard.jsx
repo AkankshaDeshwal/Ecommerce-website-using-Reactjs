@@ -5,10 +5,13 @@ import RatingPill from './RatingPill';
 import PriceDetails from './PriceDetails';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import UpdateQuantityButton from './UpdateQuantityButton';
 
 const ProductCard = ({product}) => {
     const navigate = useNavigate()
     const {cartItems, addToCart} = useCart()
+    const exists = cartItems.find(item => item.id === product.id)
+    const qty = (exists? exists.quantity: 0)
     
     return ( 
         <div className="flex flex-col rounded-md shadow-sm bg-surface">
@@ -30,7 +33,9 @@ const ProductCard = ({product}) => {
 
             <div className='flex gap-4 mt-2'>
                 <Button btnText="View Details" addStyles='text-sm' btnHandler={() => navigate(`/products/${product.id}`)}/>
-                <Button btnText="Add to Cart" addStyles='text-sm' btnHandler={() => addToCart(product.id)}/>
+                {
+                    qty?<UpdateQuantityButton productId={product.id} qty={qty}/> : <Button btnText="Add to Cart" addStyles='text-sm' btnHandler={() => addToCart(product.id)}/>
+                }
                     
 
             </div>

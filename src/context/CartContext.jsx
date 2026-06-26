@@ -25,10 +25,7 @@ const CartProvider = ({children}) => {
     }
 
     const removeItem = (id) => {
-        const newCart = cartItems.filter(item => item.id !== id)
-        setCartItems(newCart)
-        console.log('Remove item function invoked')
-        console.log('new cart', newCart)
+        setCartItems(prev => prev.filter(item => item.id !== id))
 
     }
 
@@ -46,10 +43,56 @@ const CartProvider = ({children}) => {
             console.log(err);
         }
     };
-    
+
+    const updateQuantity = (id, ops, qty) => {
+        if (ops === 'dec' && qty === 1) {
+            removeItem(id)
+            return
+        }
+
+        setCartItems(prev => prev.map(product => {
+
+            if (product.id !== id){
+                return product
+            }
+
+                return {
+                    ...product,
+                    quantity: (ops === 'inc' ? product.quantity + 1 : product.quantity-1)
+                }
+            }))
+
+        // if (ops === 'inc') {
+
+        //     newCart = cartItems.map(product => {
+        //         return {
+        //             ...product,
+        //             quantity: (product.id === id ? product.quantity + 1 : product.quantity)
+        //         }
+        //     })
+
+        // } else if (ops === 'dec') {
+        //     if (qty === 1) {
+        //         removeItem(id)
+        //     }
+        //     else {
+        //         newCart = cartItems.map(product => {
+
+        //             return {
+
+        //                 ...product,
+        //                 quantity: (product.id === id ? product.quantity - 1 : product.quantity)
+        //             }
+        //         })
+        //     }
+        // }
+
+        // setCartItems(newCart)
+    }
+
 
     return (
-        <CartContext.Provider value={{cartItems, addToCart, loadCartItems, removeItem}} >
+        <CartContext.Provider value={{cartItems, addToCart, loadCartItems, removeItem, updateQuantity}} >
             {children}
         </CartContext.Provider>
     )
