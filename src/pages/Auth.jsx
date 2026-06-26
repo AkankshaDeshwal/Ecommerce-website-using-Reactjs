@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Auth = () => {
     const {authType} = useParams()
@@ -19,6 +19,8 @@ const Auth = () => {
     const [isSubmit, setIsSubmit] = useState(false)
     const [authError, setAuthError] = useState()
     const navigate = useNavigate()
+    const location = useLocation()
+    const redirectPath = location.state?.from?.pathname || "/";
 
     const onChangeHandler = (e, inputField) => {
         setUserInput(prev => (
@@ -83,7 +85,7 @@ const Auth = () => {
                 })
             }
             else {
-                navigate("/")
+                navigate(redirectPath)
             }
         }
     }, [formErrors])

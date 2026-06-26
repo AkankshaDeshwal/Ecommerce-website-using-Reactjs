@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import Button from "./Button";
 
 const OrderTotal = ({cartTotal}) => {
     const orderTotal = cartTotal>10?cartTotal:(cartTotal+1.50)
+    const navigate = useNavigate()
 
     if (cartTotal === 0) {
         return <div>Loading...</div>
@@ -24,7 +27,7 @@ const OrderTotal = ({cartTotal}) => {
                 <h2>{orderTotal}</h2>
             </div>
 
-            <Button btnText='Proceed To Pay' />
+            <Button btnText='Proceed To Pay' btnHandler={() => navigate('/paymentpage')} />
         </div>
      );
 }
