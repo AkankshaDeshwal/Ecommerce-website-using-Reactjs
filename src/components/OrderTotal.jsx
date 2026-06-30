@@ -24,7 +24,7 @@ const OrderTotal = ({cartTotal}) => {
 
             <div className="grid grid-cols-2 gap-2">
                 <h1>Order Total:</h1>
-                <h2>{orderTotal}</h2>
+                <h2>$ {orderTotal}</h2>
             </div>
 
             <Button btnText='Proceed To Pay' btnHandler={() => navigate('/paymentpage')} />
