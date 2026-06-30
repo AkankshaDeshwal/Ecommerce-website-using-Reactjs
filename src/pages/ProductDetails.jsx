@@ -5,12 +5,15 @@ import Button from "../components/Button";
 import RatingPill from "../components/RatingPill";
 import PriceDetails from "../components/PriceDetails";
 import { useCart } from "../context/CartContext";
+import UpdateQuantityButton from "../components/UpdateQuantityButton";
 
 const ProductDetails = () => {
     const {id} = useParams();
     const [product, setProduct] = useState();
     const [isLoading, setIsLoading] = useState(true)
-    const {addToCart} = useCart();
+    const {cartItems, addToCart} = useCart()
+    const exists = cartItems.find(item => item.id === id)
+    const qty = (exists? exists.quantity: 0)
 
     const loadProducts = async () => {
         try {
@@ -68,7 +71,9 @@ const ProductDetails = () => {
                     <p className="text-sm font-secondary text-muted">{product.description}</p>
                     
                     {/* Add to cart */}
-                    <Button btnText="Add to Cart" btnHandler={() => addToCart(product.id)} />
+                    {
+                    qty?<UpdateQuantityButton productId={id} qty={qty}/> : <Button btnText="Add to Cart" addStyles='text-sm' btnHandler={() => addToCart(id)}/>
+                }
                 </div>
             </div>
         </div>
